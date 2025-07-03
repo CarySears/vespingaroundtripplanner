@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Perfect Italian Adventure | Vesping Around</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #fff5f0 0%, #f0f9ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .planner-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar.show {
+            display: block;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #F48457 0%, #2BBDB9 50%, #70479C 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .content-wrapper {
+            padding: 60px 40px;
+        }
+
+        /* Landing Page Styles */
+        .landing {
+            text-align: center;
+        }
+
+        .decorative-stars {
+            font-size: 2.5em;
+            color: #F48457;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .landing h1 {
+            font-size: 3em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .landing h1 span {
+            color: #F48457;
+        }
+
+        .landing .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 0 auto 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .start-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #F48457 0%, #70479C 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-bottom: 50px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(112, 71, 156, 0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding-top: 40px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        /* Quiz Styles */
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo svg {
+            width: 150px;
+            height: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .step-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .duration-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .destination-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .season-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .option-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #2BBDB9;
+        }
+
+        .option-card.selected {
+            border-color: #70479C;
+            background: #f8f5ff;
+        }
+
+        .option-card h3 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .option-card .label {
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .option-card .description {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .destination-card {
+            padding: 0;
+            overflow: hidden;
+            height: 300px;
+        }
+
+        .destination-card .image-wrapper {
+            height: 60%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .destination-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .destination-card .content {
+            padding: 20px;
+            height: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .destination-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+
+        .destination-card .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e0f7f7;
+            color: #2BBDB9;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .season-card {
+            padding: 40px 20px;
+        }
+
+        .season-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .btn-back:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #F48457 0%, #70479C 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(112, 71, 156, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .result h2 {
+            font-size: 2.5em;
+            color: #70479C;
+            margin-bottom: 20px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f8f5ff 0%, #e0f7f7 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .detail-item {
+            text-align: center;
+        }
+
+        .detail-item .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .detail-item .label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-item .value {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .recommendation-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 40px 20px;
+            }
+
+            .landing h1 {
+                font-size: 2.2em;
+            }
+
+            h2 {
+                font-size: 2em;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .duration-grid,
+            .destination-grid,
+            .season-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-details {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="planner-container">
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="content-wrapper">
+            <!-- Landing Page -->
+            <div class="step active" id="landing">
+                <div class="landing">
+                    <div class="decorative-stars">✨</div>
+                    <h1>Find Your Perfect<br><span>Italian Adventure</span></h1>
+                    <p class="subtitle">
+                        Discover Italy the way it was meant to be savored: slowly, intimately, and with 
+                        all five senses engaged. Let us help you find the perfect Vespa journey 
+                        through Italy's most enchanting regions.
+                    </p>
+                    
+                    <div class="hero-image">
+                        <img src="https://images.unsplash.com/photo-1534445867742-43195f401b6c?w=800&h=600&fit=crop" alt="Vespa adventure in Italy">
+                    </div>
+                    
+                    <button class="start-button" onclick="startQuiz()">
+                        Start Your Journey <span>→</span>
+                    </button>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <h3>5 Regions</h3>
+                            <p>Puglia, Tuscany, Sicily, Veneto, Liguria</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>3-8 Days</h3>
+                            <p>Perfect length for any schedule</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>All Levels</h3>
+                            <p>From beginner to expert riders</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Duration -->
+            <div class="step" id="step1">
+                <div class="logo">
+                    <svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#333">
+                            <tspan fill="#F48457">🛵</tspan> Vesping Around
+                        </text>
+                    </svg>
+                </div>
+                <h2>How long can you escape?</h2>
+                <p class="step-subtitle">Choose the perfect duration for your Italian adventure</p>
+                
+                <div class="options-grid duration-grid">
+                    <div class="option-card" onclick="selectOption('duration', '3', this)">
+                        <h3>3</h3>
+                        <p class="label">DAYS</p>
+                        <p class="description">Weekend Escape<br>Perfect for a quick taste of Italian life</p>
+                    </div>
+                    <div class="option-card" onclick="selectOption('duration', '5', this)">
+                        <h3>5</h3>
+                        <p class="label">DAYS</p>
+                        <p class="description">Classic Journey<br>The perfect balance of exploration and relaxation</p>
+                    </div>
+                    <div class="option-card" onclick="selectOption('duration', '8', this)">
+                        <h3>8</h3>
+                        <p class="label">DAYS</p>
+                        <p class="description">Immersive Experience<br>Deep dive into culture, cuisine, and countryside</p>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-back" onclick="backToLanding()">
+                        <span class="icon">←</span> Back
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep()" disabled id="nextBtn1">
+                        Continue <span class="icon">→</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Destination -->
+            <div class="step" id="step2">
+                <h2>Where does your heart call?</h2>
+                <p class="step-subtitle">Each region offers its own magic and character</p>
+                
+                <div class="options-grid destination-grid">
+                    <div class="option-card destination-card" onclick="selectOption('destination', 'puglia', this)">
+                        <div class="image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1590657951773-a8d52ec7a9b1?w=400&h=300&fit=crop" alt="Puglia">
+                        </div>
+                        <div class="content">
+                            <div class="tag">Easy</div>
+                            <h3>Puglia</h3>
+                            <p class="description">Ancient olive groves & trulli houses</p>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card destination-card" onclick="selectOption('destination', 'tuscany', this)">
+                        <div class="image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="Tuscany">
+                        </div>
+                        <div class="content">
+                            <div class="tag" style="background: #fff0e6; color: #F48457;">Intermediate</div>
+                            <h3>Tuscany</h3>
+                            <p class="description">Rolling hills & medieval villages</p>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card destination-card" onclick="selectOption('destination', 'sicily', this)">
+                        <div class="image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1607451951761-11038e859fb7?w=400&h=300&fit=crop" alt="Sicily">
+                        </div>
+                        <div class="content">
+                            <div class="tag" style="background: #f3e6ff; color: #70479C;">Advanced</div>
+                            <h3>Sicily</h3>
+                            <p class="description">Volcanic landscapes & coastal beauty</p>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card destination-card" onclick="selectOption('destination', 'veneto', this)">
+                        <div class="image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1569163139394-de4b5c43e4e3?w=400&h=300&fit=crop" alt="Veneto">
+                        </div>
+                        <div class="content">
+                            <div class="tag" style="background: #fff0e6; color: #F48457;">Intermediate</div>
+                            <h3>Veneto</h3>
+                            <p class="description">Prosecco hills & venetian charm</p>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card destination-card" onclick="selectOption('destination', 'liguria', this)">
+                        <div class="image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1590070714502-b756e3e0d646?w=400&h=300&fit=crop" alt="Liguria">
+                        </div>
+                        <div class="content">
+                            <div class="tag" style="background: #f3e6ff; color: #70479C;">Advanced</div>
+                            <h3>Liguria</h3>
+                            <p class="description">Cinque Terre & coastal roads</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-back" onclick="previousStep()">
+                        <span class="icon">←</span> Back
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep()" disabled id="nextBtn2">
+                        Continue <span class="icon">→</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Season -->
+            <div class="step" id="step3">
+                <h2>When do you dream of riding?</h2>
+                <p class="step-subtitle">Each season brings its own Italian magic</p>
+                
+                <div class="options-grid season-grid">
+                    <div class="option-card season-card" onclick="selectOption('season', 'spring', this)">
+                        <div class="season-icon">🌸</div>
+                        <h3>Spring</h3>
+                        <p class="label">March - May</p>
+                        <p class="description">Mild weather, blooming landscapes</p>
+                    </div>
+                    
+                    <div class="option-card season-card" onclick="selectOption('season', 'summer', this)">
+                        <div class="season-icon">☀️</div>
+                        <h3>Summer</h3>
+                        <p class="label">June - August</p>
+                        <p class="description">Warm days, long evenings</p>
+                    </div>
+                    
+                    <div class="option-card season-card" onclick="selectOption('season', 'autumn', this)">
+                        <div class="season-icon">🍂</div>
+                        <h3>Autumn</h3>
+                        <p class="label">September - November</p>
+                        <p class="description">Harvest season, perfect temperatures</p>
+                    </div>
+                    
+                    <div class="option-card season-card" onclick="selectOption('season', 'winter', this)">
+                        <div class="season-icon">❄️</div>
+                        <h3>Winter</h3>
+                        <p class="label">December - February</p>
+                        <p class="description">Peaceful countryside, fewer crowds</p>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-back" onclick="previousStep()">
+                        <span class="icon">←</span> Back
+                    </button>
+                    <button class="btn btn-primary" onclick="showResults()" disabled id="nextBtn3">
+                        Get My Recommendations <span class="icon">✨</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="step" id="results">
+                <div class="result">
+                    <h2>Your Perfect Italian Adventure Awaits!</h2>
+                    <div class="result-card">
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <div class="icon" id="durationIcon">📅</div>
+                                <p class="label">Duration</p>
+                                <p class="value" id="durationResult"></p>
+                            </div>
+                            <div class="detail-item">
+                                <div class="icon" id="destinationIcon">📍</div>
+                                <p class="label">Destination</p>
+                                <p class="value" id="destinationResult"></p>
+                            </div>
+                            <div class="detail-item">
+                                <div class="icon" id="seasonIcon">🌿</div>
+                                <p class="label">Best Time</p>
+                                <p class="value" id="seasonResult"></p>
+                            </div>
+                        </div>
+                        <div class="recommendation-text" id="recommendationText"></div>
+                    </div>
+                    
+                    <a href="https://www.vespingaround.com/contact" class="btn btn-primary" id="bookingLink" style="font-size: 1.2em; padding: 16px 40px;">
+                        Start Planning My Trip <span class="icon">🛵</span>
+                    </a>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-back" onclick="startOver()">
+                            Plan Another Adventure
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selections = {
+            duration: null,
+            destination: null,
+            season: null
+        };
+
+        const recommendations = {
+            puglia: {
+                3: "A perfect weekend escape through Puglia's Valle d'Itria, exploring the iconic trulli houses of Alberobello and savoring fresh burrata in Martina Franca. This condensed journey offers a taste of authentic Southern Italian life.",
+                5: "The classic Puglia experience takes you from the fairytale trulli villages through ancient olive groves to seaside towns. You'll have time to master orecchiette pasta-making and discover hidden masserie (farmhouses) along quiet country roads.",
+                8: "Your extended Puglia adventure covers three distinct areas: the trulli-dotted Valle d'Itria, the dramatic Gargano coastline, and baroque Salento. This immersive journey includes cooking classes, olive oil tastings, and plenty of seaside aperitivos."
+            },
+            tuscany: {
+                3: "A concentrated taste of Tuscany, riding through the heart of Chianti from Florence to Siena. You'll visit family wineries, medieval hill towns, and enjoy long Tuscan lunches with views over endless vineyards.",
+                5: "The quintessential Tuscan journey weaves through both Chianti and Val d'Orcia, offering iconic landscapes, world-class wines, and Renaissance treasures. Perfect for experiencing the region's diverse beauty at a relaxed pace.",
+                8: "Your comprehensive Tuscan odyssey explores hidden corners beyond the classics - from the marble mountains of Carrara to the wild Maremma coast. This journey includes exclusive winery visits, truffle hunting, and cooking in centuries-old farmhouses."
+            },
+            sicily: {
+                3: "A thrilling introduction to Sicily, combining glamorous Taormina with the raw power of Mount Etna. You'll ride through citrus groves, explore ancient theaters, and taste wines grown in volcanic soil.",
+                5: "Experience Sicily's dramatic contrasts - from Etna's lunar landscapes to Taormina's sophisticated charm, with detours to hidden mountain villages. This journey balances adventure with relaxation, volcano with sea.",
+                8: "Your epic Sicilian adventure extends beyond Taormina and Etna to include the baroque cities of the Val di Noto and the temples of Agrigento. This is Sicily in all its layered glory - Greek ruins, Arab influences, and Italian passion."
+            },
+            veneto: {
+                3: "A delightful escape through the Prosecco Hills, combining wine tastings with visits to Palladian villas and the grappa capital of Bassano. Short but sweet, like a perfect Italian espresso.",
+                5: "The ideal Veneto experience balances the elegance of the Prosecco wine region with the rugged beauty of the Dolomite foothills. You'll discover medieval villages, artisan distilleries, and enjoy memorable meals with mountain views.",
+                8: "Your extensive Veneto journey covers everything from Venice's lagoon islands to the pink peaks of the Dolomites. This varied itinerary includes exclusive prosecco estates, historic cities like Verona, and hidden alpine valleys."
+            },
+            liguria: {
+                3: "A coastal adventure linking the glitz of Portofino with the authentic charm of the Cinque Terre. You'll ride spectacular seaside roads and discover hidden coves accessible only by Vespa.",
+                5: "The perfect Ligurian journey combines famous coastal gems with inland discoveries - medieval villages, olive groves, and family trattorias far from tourist crowds. Equal parts glamour and authenticity.",
+                8: "Your complete Ligurian experience extends from the French border to Tuscany, including not just the famous Riviera but also the wild Apennine mountains. This is the ultimate land-meets-sea adventure."
+            }
+        };
+
+        const seasonRecommendations = {
+            spring: "Spring brings Italy to life with wildflowers, perfect temperatures, and festive local celebrations.",
+            summer: "Summer offers long days, lively piazzas, and the joy of coastal rides - just remember to start early to beat the heat.",
+            autumn: "Autumn is magical for Vespa touring - harvest season brings food festivals, perfect weather, and stunning colors.",
+            winter: "Winter reveals a quieter, more intimate Italy - you'll have historic sites to yourself and cozy trattorias become your warming refuge."
+        };
+
+        const bookingUrls = {
+            puglia: 'https://www.vespingaround.com/puglia',
+            tuscany: 'https://www.vespingaround.com/tuscany',
+            sicily: 'https://www.vespingaround.com/sicily',
+            veneto: 'https://www.vespingaround.com/veneto',
+            liguria: 'https://www.vespingaround.com/liguria'
+        };
+
+        function startQuiz() {
+            document.getElementById('landing').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('progressBar').classList.add('show');
+            updateProgressBar(1);
+        }
+
+        function backToLanding() {
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('landing').classList.add('active');
+            document.getElementById('progressBar').classList.remove('show');
+        }
+
+        function selectOption(type, value, element) {
+            // Remove previous selection
+            const cards = element.parentElement.querySelectorAll('.option-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            
+            // Add selection
+            element.classList.add('selected');
+            selections[type] = value;
+            
+            // Enable next button
+            const stepNum = type === 'duration' ? 1 : type === 'destination' ? 2 : 3;
+            document.getElementById(`nextBtn${stepNum}`).disabled = false;
+        }
+
+        function nextStep() {
+            const currentStep = document.querySelector('.step.active');
+            const currentStepNum = parseInt(currentStep.id.replace('step', ''));
+            
+            currentStep.classList.remove('active');
+            document.getElementById(`step${currentStepNum + 1}`).classList.add('active');
+            
+            updateProgressBar(currentStepNum + 1);
+        }
+
+        function previousStep() {
+            const currentStep = document.querySelector('.step.active');
+            const currentStepNum = currentStep.id === 'results' ? 4 : parseInt(currentStep.id.replace('step', ''));
+            
+            currentStep.classList.remove('active');
+            document.getElementById(`step${currentStepNum - 1}`).classList.add('active');
+            
+            updateProgressBar(currentStepNum - 1);
+        }
+
+        function updateProgressBar(step) {
+            const progress = (step / 3) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('results').classList.add('active');
+            updateProgressBar(3);
+            
+            // Update results
+            const destinationNames = {
+                puglia: 'Puglia',
+                tuscany: 'Tuscany',
+                sicily: 'Sicily',
+                veneto: 'Veneto',
+                liguria: 'Liguria'
+            };
+            
+            const seasonNames = {
+                spring: 'Spring',
+                summer: 'Summer',
+                autumn: 'Autumn',
+                winter: 'Winter'
+            };
+            
+            document.getElementById('durationResult').textContent = `${selections.duration} Days`;
+            document.getElementById('destinationResult').textContent = destinationNames[selections.destination];
+            document.getElementById('seasonResult').textContent = seasonNames[selections.season];
+            
+            // Update icons
+            const seasonIcons = {
+                spring: '🌸',
+                summer: '☀️',
+                autumn: '🍂',
+                winter: '❄️'
+            };
+            document.getElementById('seasonIcon').textContent = seasonIcons[selections.season];
+            
+            // Generate recommendation text
+            const baseRecommendation = recommendations[selections.destination][selections.duration];
+            const seasonNote = seasonRecommendations[selections.season];
+            
+            document.getElementById('recommendationText').innerHTML = 
+                `<p><strong>${baseRecommendation}</strong></p>
+                 <p style="margin-top: 20px;">${seasonNote}</p>`;
+            
+            // Update the booking link based on selected destination
+            const bookingLink = bookingUrls[selections.destination] || 'https://www.vespingaround.com/destinations';
+            const ctaButton = document.getElementById('bookingLink');
+            ctaButton.href = bookingLink;
+            
+            // Update button text to be more specific
+            ctaButton.innerHTML = `View ${destinationNames[selections.destination]} Tours <span class="icon">🛵</span>`;
+        }
+
+        function startOver() {
+            selections = {
+                duration: null,
+                destination: null,
+                season: null
+            };
+            
+            // Reset all selections
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Reset buttons
+            document.querySelectorAll('.btn-primary').forEach(btn => {
+                if (btn.id && btn.id.startsWith('nextBtn')) {
+                    btn.disabled = true;
+                }
+            });
+            
+            // Go back to landing
+            document.querySelector('.step.active').classList.remove('active');
+            document.getElementById('landing').classList.add('active');
+            document.getElementById('progressBar').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
