@@ -89,6 +89,17 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-image::before {
+            content: "Hero image placeholder";
+            color: #ddd;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .hero-image img {
             width: 100%;
@@ -235,6 +246,16 @@
             overflow: hidden;
             position: relative;
             background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .destination-card .image-wrapper::before {
+            content: "Image placeholder";
+            color: #ddd;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .destination-card img {
             width: 100%;
@@ -413,7 +434,7 @@
                     </p>
                     
                     <div class="hero-image">
-                        <img src="https://images.unsplash.com/photo-1534445867742-43195f401b6c?w=800&h=600&fit=crop" alt="Vespa adventure in Italy">
+                        <!-- Add your hero image here -->
                     </div>
                     
                     <button class="start-button" onclick="startQuiz()">
@@ -482,7 +503,7 @@
                 <div class="options-grid destination-grid">
                     <div class="option-card destination-card" onclick="selectOption('destination', 'puglia', this)">
                         <div class="image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1523528283115-9bf9b1699245?w=400&h=300&fit=crop" alt="Puglia">
+                            <!-- Add your Puglia image here -->
                         </div>
                         <div class="content">
                             <div class="tag">Easy</div>
@@ -493,7 +514,7 @@
                     
                     <div class="option-card destination-card" onclick="selectOption('destination', 'tuscany', this)">
                         <div class="image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1541370976299-4d24ebbc9077?w=400&h=300&fit=crop" alt="Tuscany">
+                            <!-- Add your Tuscany image here -->
                         </div>
                         <div class="content">
                             <div class="tag" style="background: #fff0e6; color: #F48457;">Intermediate</div>
@@ -504,7 +525,7 @@
                     
                     <div class="option-card destination-card" onclick="selectOption('destination', 'sicily', this)">
                         <div class="image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1523386084658-1b5c2c4f7b25?w=400&h=300&fit=crop" alt="Sicily">
+                            <!-- Add your Sicily image here -->
                         </div>
                         <div class="content">
                             <div class="tag" style="background: #f3e6ff; color: #70479C;">Advanced</div>
@@ -515,7 +536,7 @@
                     
                     <div class="option-card destination-card" onclick="selectOption('destination', 'veneto', this)">
                         <div class="image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1514890547357-a9ee288728e0?w=400&h=300&fit=crop" alt="Veneto">
+                            <!-- Add your Veneto image here -->
                         </div>
                         <div class="content">
                             <div class="tag" style="background: #fff0e6; color: #F48457;">Intermediate</div>
@@ -526,7 +547,7 @@
                     
                     <div class="option-card destination-card" onclick="selectOption('destination', 'liguria', this)">
                         <div class="image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1590579491624-f98f36d4c763?w=400&h=300&fit=crop" alt="Liguria">
+                            <!-- Add your Liguria image here -->
                         </div>
                         <div class="content">
                             <div class="tag" style="background: #f3e6ff; color: #70479C;">Advanced</div>
